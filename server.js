@@ -51,10 +51,16 @@ const server = http.createServer((req, res) => {
             case '/add' :
                 customerController.showFormAdd(req, res)
                 break;
-
-            case '/add/create' :
+            case '/create' :
+                customerController.createOrder(req, res)
                 break;
-
+            case '/customers/update' :
+                if (req.method === 'GET') {
+                    customerController.showFormUpdate(req, res)
+                } else {
+                    customerController.updateCustomer(req, res)
+                }
+                break;
             default:
                 res.end();
         }
@@ -63,5 +69,5 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running at http://localhost:${port}/login`);
 })

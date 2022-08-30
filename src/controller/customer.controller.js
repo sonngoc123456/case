@@ -22,6 +22,7 @@ class CustomerController{
                 html+=`<td>${value.customerName}</td>`;
                 html+=`<td>${value.phone}</td>`;
                 html+= `<td><a href="/customers/orders?id=${value.customerID}" class="btn btn-success">Xem đơn hàng</a></td>`;
+                html+= `<td><a href="/customers/update?id=${value.customerID}" class="btn btn-danger">Update</a></td>`;
                 html+=`</tr>`;
             })
             data=data.replace('{list-customers}',html);
@@ -33,9 +34,7 @@ class CustomerController{
 
     async searchCustomer(req, res) {
         let keyword = qs.parse(url.parse(req.url).query).keyword;
-
         let customers = await this.customerModel.findByName(keyword);
-
         let html = '';
         if (customers.length > 0) {
             customers.forEach((item, index) => {
@@ -84,7 +83,6 @@ class CustomerController{
             let dataForm = qs.parse(data);
             let users = await this.customerModel.getUser();
             let passwordUser = parseInt(dataForm.password)
-
           for(let i = 0; i < users.length; i++) {
               if (dataForm.email === users[i].email && passwordUser === users[i].password) {
                   res.writeHead(301, { Location: '/'})
@@ -101,8 +99,8 @@ class CustomerController{
     async showListOrder(req, res) {
         let customerID = qs.parse(url.parse(req.url).query).id;
         let customer = await this.customerModel.findCustomer(customerID);
-        var nameCustomer = customer[0].customerName;
-        var phone =customer[0].phone;
+        let nameCustomer = customer[0].customerName;
+        let phone =customer[0].phone;
         let result = await this.customerModel.getListOrderOfCustomer(customerID)
         let html = '';
         if (result.length > 0) {
@@ -132,8 +130,9 @@ class CustomerController{
     async deleteOrder(req, res) {
         let index = qs.parse(url.parse(req.url).query).index;
         let id = qs.parse(url.parse(req.url).query).id;
-        await this.customerModel.deleteOrder(index,id);
-        res.writeHead(301,{'Location':'/customers/orders'})
+        await this.customerModel.deleteOrderDetail(index);
+        await this.customerModel.deleteOrders(index);
+        res.writeHead(301,{'Location':`/customers/orders?id=${id}`})
         res.end();
     }
 
@@ -168,6 +167,49 @@ class CustomerController{
             }
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write(data);
+            res.end();
+        })
+    }
+
+    createOrder(req, res) {
+        let data = ''
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end',async () => {
+            let dataForm = qs.parse(data);
+            let customerID = dataForm.customerID;
+            let date = dataForm.orderDate;
+            console.log(customerID)
+            console.log(date)
+            await this.customerModel.createOrder(customerID,date);
+            res.writeHead(301,{'Location':`/customers/orders?id=${customerID}`})
+            res.end();
+        })
+    }
+
+    showFormUpdate(req, res) {
+        fs.readFile('./templates/UpdateCustomer.html', 'utf8', (err, data) => {
+            if(err) {
+                throw new Error(err.message)
+            }
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data);
+            res.end();
+        })
+    }
+    updateCustomer(req, res) {
+        let data = ''
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end',async () => {
+            let customerID = qs.parse(url.parse(req.url).query).id
+            let dataForm = qs.parse(data);
+            let customerName = dataForm.customerName;
+            let phone = dataForm.phone;
+            await this.customerModel.updateCustomer(customerID, customerName, phone);
+            res.writeHead(301,{'Location':'/'})
             res.end();
         })
     }

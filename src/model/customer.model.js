@@ -46,12 +46,17 @@ class CustomerModel {
         return await this.querySQL(sql);
     }
 
-    async deleteOrder(index,id) {
-        const sql = `delete from orders
-       join orderdetail on orderdetail.orderID = orders.orderID
-       where orders.orderID = '${index}'`;
+    async deleteOrderDetail(index) {
+        const sql = `delete from orderdetail
+       where orderID = '${index}'`;
         return await this.querySQL(sql);
     }
+    async deleteOrders(index) {
+        const sql = `delete from orders
+       where orderID = '${index}'`;
+        return await this.querySQL(sql);
+    }
+
 
     async getOrderDetail(orderID) {
         const sql = `select product.productName, orderdetail.orderQTY, product.productPrice
@@ -67,6 +72,20 @@ class CustomerModel {
                       where customerID = '${customerID}'`;
         return await this.querySQL(sql);
     }
+
+    async updateCustomer(customerID,customerName,phone) {
+        const sql = `UPDATE customers SET customerName='${customerName}', phone='${phone}'
+                      where customerID = '${customerID}'`;
+        return await this.querySQL(sql);
+    }
+
+    async createOrder(customerID,date) {
+        const sql = `insert into orders(customerID,orderDate)
+        value(${customerID}, '${date}')`;
+        return await this.querySQL(sql);
+    }
+
+
 
 }
 
