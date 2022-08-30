@@ -39,11 +39,29 @@ const server = http.createServer((req, res) => {
             case '/login/success':
                 customerController.LoginSuccess(req, res);
                 break;
+            case '/customers/orders' :
+                customerController.showListOrder(req, res).catch(err => console.log(err.message));
+                break;
+            case '/customers/orders/delete':
+                customerController.deleteOrder(req, res).catch(err => console.log(err.message));
+                break;
+            case '/customers/orders/detail':
+                customerController.getListOrderDetail(req, res).catch(err => console.log(err.message));
+                break;
+            case '/add' :
+                customerController.showFormAdd(req, res)
+                break;
+
+            case '/add/create' :
+                break;
+
+            default:
+                res.end();
         }
     }
 
 })
 
 server.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}/login`);
+    console.log(`Server is running at http://localhost:${port}`);
 })

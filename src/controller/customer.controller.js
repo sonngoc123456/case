@@ -21,6 +21,7 @@ class CustomerController{
                 html+=`<td>${index+1}</td>`;
                 html+=`<td>${value.customerName}</td>`;
                 html+=`<td>${value.phone}</td>`;
+                html+= `<td><a href="/customers/orders?id=${value.customerID}" class="btn btn-success">Xem đơn hàng</a></td>`;
                 html+=`</tr>`;
             })
             data=data.replace('{list-customers}',html);
@@ -42,7 +43,6 @@ class CustomerController{
                 html += `<td>${index + 1}</td>`;
                 html += `<td>${item.customerName}</td>`;
                 html += `<td>${item.phone}</td>`;
-                html += `<td><a href="/customers/orders?id=${item.customerNumber}" class="btn btn-success">Xem đơn hàng</a></td>`;
                 html += "</tr>";
             })
         } else {
@@ -50,7 +50,6 @@ class CustomerController{
             html += `<td colspan="4" class="text-center">Không có dữ liệu</td>`;
             html += "</tr>";
         }
-
         fs.readFile('./templates/homePage.html', 'utf8', ((err, data) =>  {
             if (err) {
                 throw new Error(err.message)
@@ -95,6 +94,81 @@ class CustomerController{
               res.end()
           }
 
+        })
+    }
+
+
+    async showListOrder(req, res) {
+        let customerID = qs.parse(url.parse(req.url).query).id;
+        let customer = await this.customerModel.findCustomer(customerID);
+        var nameCustomer = customer[0].customerName;
+        var phone =customer[0].phone;
+        let result = await this.customerModel.getListOrderOfCustomer(customerID)
+        let html = '';
+        if (result.length > 0) {
+            result.forEach((item, index) => {
+                html += "<tr>";
+                html += `<td>${index + 1}</td>`;
+                html += `<td>${item.orderID}</td>`;
+                html += `<td>${item.customerID}</td>`;
+                html += `<td>${item.orderDate}</td>`;
+                html += `<td><a href="/customers/orders/detail?index=${item.orderID}" class="btn btn-primary">Chi tiết</a></td>`;
+                html += `<td><a href="/customers/orders/delete?index=${item.orderID}&id=${item.customerID}" class="btn btn-danger">Xóa</a></td>`;
+                html += "</tr>";
+            })
+        }else {
+            html += "<tr>";
+            html += `<td colspan="4" class="text-center">Không có dữ liệu</td>`;
+            html += "</tr>";
+        }
+        fs.readFile('./templates/Order.html', 'utf8', (err, data) => {
+            data = data.replace('{name}', nameCustomer)
+            data = data.replace('{phone}', phone)
+            data = data.replace('{list-orders}', html)
+            res.end(data);
+        })
+    }
+
+    async deleteOrder(req, res) {
+        let index = qs.parse(url.parse(req.url).query).index;
+        let id = qs.parse(url.parse(req.url).query).id;
+        await this.customerModel.deleteOrder(index,id);
+        res.writeHead(301,{'Location':'/customers/orders'})
+        res.end();
+    }
+
+    async getListOrderDetail(req, res) {
+        let orderId = qs.parse(url.parse(req.url).query).index
+        let result =  await this.customerModel.getOrderDetail(orderId);
+        let html = '';
+        if (result.length > 0) {
+            result.forEach((item, index) => {
+                html += "<tr>";
+                html += `<td>${index + 1}</td>`;
+                html += `<td>${item.productName}</td>`;
+                html += `<td>${item.orderQTY}</td>`;
+                html += `<td>${item.productPrice}</td>`;
+                html += "</tr>";
+            })
+        }else {
+            html += "<tr>";
+            html += `<td colspan="4" class="text-center">Không có dữ liệu</td>`;
+            html += "</tr>";
+        }
+        fs.readFile('./templates/orderdetail.html', 'utf8', (err, data) => {
+            data = data.replace('{list-orders}', html)
+            res.end(data);
+        })
+    }
+
+    showFormAdd(req, res) {
+        fs.readFile('./templates/add.html', 'utf8', (err, data) => {
+            if(err) {
+                throw new Error(err.message)
+            }
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data);
+            res.end();
         })
     }
 

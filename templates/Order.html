@@ -52,42 +52,33 @@
       <div class="card-header">
         <div class="row">
           <div class="col-12 col-md-4">
-            Danh sách khách hàng
-            <a type="button" class="btn btn-outline-danger" href = "/add">Add</a>
-          </div>
-          <div class="col-12 col-md-8">
-            <form action="/customers/search" method="get">
-              <div class="row">
-
-                <div class="col-12 col-md-8">
-                  <input type="text" name="keyword" placeholder="Enter your name" class="form-control">
-                </div>
-                <div class="col-12 col-md-4">
-                  <button type="submit" class="btn btn-primary">Search</button>
-                  <a type="submit" class="btn btn-danger" href="/">Back</a>
-                </div>
-
-              </div>
-            </form>
-
+            Danh sách đơn hàng
           </div>
         </div>
 
       </div>
       <div class="card-body">
-        <table class="table">
-          <thead class="thead-light">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên khách hàng</th>
-            <th scope="col">Số điện thoại</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          {list-customers}
-          </tbody>
-        </table>
+        <h3>Thông tin khách hàng</h3>
+        <p>Tên khách hàng: {name}</p>
+        <p>Số điện thoại: {phone}</p>
+        <h3>Danh sách đơn hàng</h3>
+        <div class="card-body">
+          <table class="table">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Mã Hóa Đơn</th>
+              <th scope="col">Mã Khách hàng</th>
+              <th scope="col">Ngày mua</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {list-orders}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
