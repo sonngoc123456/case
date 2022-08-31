@@ -2,6 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url')
 const CustomerController = require('./src/controller/customer.controller');
+const AuthController = require('./src/controller/authController');
+const authController = new AuthController();
 const customerController = new CustomerController();
 const port = 8080;
 
@@ -33,11 +35,33 @@ const server = http.createServer((req, res) => {
             case '/customers/search':
                 customerController.searchCustomer(req, res).catch(err => console.log(err.message));
                 break;
+            // case '/login':
+            //     customerController.Login(req, res)
+            //     break;
+            // case '/login/success':
+            //     customerController.LoginSuccess(req, res);
+            //     break;
             case '/login':
-                customerController.Login(req, res)
+                if(req.method === 'GET'){
+                    authController.showFormLogin(req,res);
+                }else {
+                    authController.login(req,res);
+                }
                 break;
-            case '/login/success':
-                customerController.LoginSuccess(req, res);
+            case '/user/add':
+                if(req.method === 'GET'){
+                    authController.formRegister(req,res);
+                }else {
+                    authController.Register(req,res);
+                }
+                break;
+            case '/userLogin':
+                authController.showUserLogin(req,res).catch(err=>{
+                    console.log(err.message)
+                });
+                break;
+            case '/delete':
+                authController.deleteUsers(req,res)
                 break;
             case '/customers/orders' :
                 customerController.showListOrder(req, res).catch(err => console.log(err.message));
