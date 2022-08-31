@@ -21,8 +21,9 @@ class CustomerController{
                 html+=`<td>${index+1}</td>`;
                 html+=`<td>${value.customerName}</td>`;
                 html+=`<td>${value.phone}</td>`;
-                html+= `<td><a href="/customers/orders?id=${value.customerID}" class="btn btn-success">Xem đơn hàng</a></td>`;
-                html+= `<td><a href="/customers/update?id=${value.customerID}" class="btn btn-danger">Update</a></td>`;
+                html+=`<td>${value.city}</td>`;
+                html+= `<td><a href="/customers/orders?id=${value.customerID}" class="btn btn-warning">Đơn hàng</a></td>`;
+                html+= `<td><a href="/customers/update?id=${value.customerID}" class="btn btn-info">Update</a></td>`;
                 html+=`</tr>`;
             })
             data=data.replace('{list-customers}',html);
@@ -137,22 +138,7 @@ class CustomerController{
         })
     }
 
-    createOrder(req, res) {
-        let data = ''
-        req.on('data', chunk => {
-            data += chunk
-        })
-        req.on('end',async () => {
-            let dataForm = qs.parse(data);
-            let customerID = dataForm.customerID;
-            let date = dataForm.orderDate;
-            console.log(customerID)
-            console.log(date)
-            await this.customerModel.createOrder(customerID,date);
-            res.writeHead(301,{'Location':`/customers/orders?id=${customerID}`})
-            res.end();
-        })
-    }
+
 
     showFormUpdate(req, res) {
         fs.readFile('./templates/UpdateCustomer.html', 'utf8', (err, data) => {
@@ -175,6 +161,32 @@ class CustomerController{
             let customerName = dataForm.customerName;
             let phone = dataForm.phone;
             await this.customerModel.updateCustomer(customerID, customerName, phone);
+            res.writeHead(301,{'Location':'/'})
+            res.end();
+        })
+    }
+
+    showFormAddOrder(req, res) {
+        fs.readFile('./templates/form.html', 'utf8', (err, data) => {
+            if(err) {
+                throw new Error(err.message)
+            }
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data);
+            res.end();
+        })
+    }
+
+    createOrder(req, res) {
+        let data = ''
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end',async () => {
+            let dataForm = qs.parse(data);
+            await this.customerModel.addCustomer(dataForm);
+            await this.customerModel.addOrder(dataForm);
+            await this.customerModel.addOrderDetails(dataForm);
             res.writeHead(301,{'Location':'/'})
             res.end();
         })

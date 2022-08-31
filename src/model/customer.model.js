@@ -18,7 +18,7 @@ class CustomerModel {
     }
 
     async getCustomer() {
-        const sql = `select customerID, customerName, phone
+        const sql = `select customerID, customerName, phone,city
                      from customers`;
         return await this.querySQL(sql);
     }
@@ -40,23 +40,18 @@ class CustomerModel {
         return await this.querySQL(sql)
     }
 
-    async getUser() {
-        const sql = `select email, password
-                     from user`;
-        return await this.querySQL(sql);
-    }
 
     async deleteOrderDetail(index) {
         const sql = `delete from orderdetail
        where orderID = '${index}'`;
         return await this.querySQL(sql);
     }
+
     async deleteOrders(index) {
         const sql = `delete from orders
        where orderID = '${index}'`;
         return await this.querySQL(sql);
     }
-
 
     async getOrderDetail(orderID) {
         const sql = `select product.productName, orderdetail.orderQTY, product.productPrice
@@ -79,9 +74,41 @@ class CustomerModel {
         return await this.querySQL(sql);
     }
 
-    async createOrder(customerID,date) {
+    async addCustomer(dataForm) {
+        const sql = `insert into customers(customerName,phone,city)
+        value('${dataForm.name}', '${dataForm.phone}', '${dataForm.city}')`;
+        return await this.querySQL(sql);
+    }
+
+    async getCustomerID(dataForm) {
+        const sql = `select customerID
+                     from customers
+                      where customerName = '${dataForm.name}' and phone = '${dataForm.phone}'`;
+        return await this.querySQL(sql);
+    }
+
+    async addOrder(dataForm) {
+        let ID = await this.getCustomerID(dataForm)
+        let customerID = ID[0].customerID;
         const sql = `insert into orders(customerID,orderDate)
-        value(${customerID}, '${date}')`;
+                         value(${customerID}, '${dataForm.date}')`;
+        return await this.querySQL(sql);
+    }
+
+    async getOrderID(dataForm) {
+        let ID = await this.getCustomerID(dataForm)
+        let customerID = ID[0].customerID;
+        const sql = `select orderID
+                     from orders
+                      where customerID = ${customerID} and orderDate = '${dataForm.date}'`;
+        return await this.querySQL(sql);
+    }
+
+    async addOrderDetails(dataForm) {
+        let ID = await this.getOrderID(dataForm)
+        let orderID = ID[0].orderID;
+        const sql = `insert into orderdetail(orderID,productID,orderQTY)
+                         value(${orderID}, '${dataForm.productname}', '${dataForm.soluong}')`;
         return await this.querySQL(sql);
     }
 

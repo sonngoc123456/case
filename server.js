@@ -76,9 +76,15 @@ const server = http.createServer((req, res) => {
             case '/add' :
                 customerController.showFormAdd(req, res)
                 break;
-            case '/create' :
-                customerController.createOrder(req, res)
+                case '/create/order' :
+                    customerController.showFormAddOrder(req, res)
                 break;
+                    case '/create/order/success' :
+                        customerController.createOrder(req, res)
+                break;
+            // case '/create' :
+            //     customerController.createOrder(req, res)
+            //     break;
             case '/customers/update' :
                 if (req.method === 'GET') {
                     customerController.showFormUpdate(req, res)
