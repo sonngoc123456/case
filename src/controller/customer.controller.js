@@ -127,17 +127,6 @@ class CustomerController{
         })
     }
 
-    showFormAdd(req, res) {
-        fs.readFile('./templates/add.html', 'utf8', (err, data) => {
-            if(err) {
-                throw new Error(err.message)
-            }
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(data);
-            res.end();
-        })
-    }
-
 
 
     showFormUpdate(req, res) {

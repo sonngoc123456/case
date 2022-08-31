@@ -19,7 +19,7 @@ class CustomerModel {
 
     async getCustomer() {
         const sql = `select customerID, customerName, phone,city
-                     from customers`;
+                     from customers `;
         return await this.querySQL(sql);
     }
 
@@ -90,6 +90,7 @@ class CustomerModel {
     async addOrder(dataForm) {
         let ID = await this.getCustomerID(dataForm)
         let customerID = ID[0].customerID;
+        console.log(customerID);
         const sql = `insert into orders(customerID,orderDate)
                          value(${customerID}, '${dataForm.date}')`;
         return await this.querySQL(sql);

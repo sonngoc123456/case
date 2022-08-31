@@ -36,32 +36,32 @@ const server = http.createServer((req, res) => {
                 customerController.searchCustomer(req, res).catch(err => console.log(err.message));
                 break;
             case '/login':
-                if(req.method === 'GET'){
-                    authController.showFormLogin(req,res);
-                }else {
-                    authController.login(req,res);
+                if (req.method === 'GET') {
+                    authController.showFormLogin(req, res);
+                } else {
+                    authController.login(req, res);
                 }
                 break;
             case '/user/add':
-                if(req.method === 'GET'){
-                    authController.formRegister(req,res);
-                }else {
-                    authController.Register(req,res);
+                if (req.method === 'GET') {
+                    authController.formRegister(req, res);
+                } else {
+                    authController.Register(req, res);
                 }
                 break;
             case '/userLogin':
-                authController.showUserLogin(req,res).catch(err=>{
+                authController.showUserLogin(req, res).catch(err => {
                     console.log(err.message)
                 });
                 break;
             case '/deleteuser':
-                authController.deleteUser(req,res).catch()
+                authController.deleteUser(req, res).catch()
                 break;
             case '/formupdateuser':
-                if(req.method === 'GET'){
-                    authController.formupdateUser(req,res)
-                }else {
-                    authController.updateUsers(req,res).catch()
+                if (req.method === 'GET') {
+                    authController.formupdateUser(req, res)
+                } else {
+                    authController.updateUsers(req, res).catch()
                 }
                 break;
             case '/customers/orders' :
@@ -73,18 +73,12 @@ const server = http.createServer((req, res) => {
             case '/customers/orders/detail':
                 customerController.getListOrderDetail(req, res).catch(err => console.log(err.message));
                 break;
-            case '/add' :
-                customerController.showFormAdd(req, res)
+            case '/create/order' :
+                customerController.showFormAddOrder(req, res)
                 break;
-                case '/create/order' :
-                    customerController.showFormAddOrder(req, res)
+            case '/create/order/success' :
+                customerController.createOrder(req, res)
                 break;
-                    case '/create/order/success' :
-                        customerController.createOrder(req, res)
-                break;
-            // case '/create' :
-            //     customerController.createOrder(req, res)
-            //     break;
             case '/customers/update' :
                 if (req.method === 'GET') {
                     customerController.showFormUpdate(req, res)

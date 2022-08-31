@@ -3331,114 +3331,123 @@ User</ColNames>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <key id="693" parent="345" name="PRIMARY">
+    <index id="693" parent="345" name="phone">
+      <ColNames>phone</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="694" parent="345" name="PRIMARY">
       <ColNames>customerID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="694" parent="346" name="orderID">
+    <key id="695" parent="345" name="phone">
+      <ColNames>phone</ColNames>
+      <UnderlyingIndexName>phone</UnderlyingIndexName>
+    </key>
+    <column id="696" parent="346" name="orderID">
       <DataType>int|0s</DataType>
       <Position>1</Position>
     </column>
-    <column id="695" parent="346" name="productID">
+    <column id="697" parent="346" name="productID">
       <DataType>int|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="696" parent="346" name="orderQTY">
+    <column id="698" parent="346" name="orderQTY">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="697" parent="346" name="orderdetail_ibfk_1">
+    <foreign-key id="699" parent="346" name="orderdetail_ibfk_1">
       <ColNames>orderID</ColNames>
       <RefColNames>orderID</RefColNames>
       <RefTableName>orders</RefTableName>
     </foreign-key>
-    <foreign-key id="698" parent="346" name="orderdetail_ibfk_2">
+    <foreign-key id="700" parent="346" name="orderdetail_ibfk_2">
       <ColNames>productID</ColNames>
       <RefColNames>productID</RefColNames>
       <RefTableName>product</RefTableName>
     </foreign-key>
-    <index id="699" parent="346" name="orderID">
+    <index id="701" parent="346" name="orderID">
       <ColNames>orderID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="700" parent="346" name="productID">
+    <index id="702" parent="346" name="productID">
       <ColNames>productID</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="701" parent="347" name="orderID">
+    <column id="703" parent="347" name="orderID">
       <AutoIncrement>46</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="702" parent="347" name="customerID">
+    <column id="704" parent="347" name="customerID">
       <DataType>int|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="703" parent="347" name="orderDate">
+    <column id="705" parent="347" name="orderDate">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="704" parent="347" name="orders_ibfk_1">
+    <foreign-key id="706" parent="347" name="orders_ibfk_1">
       <ColNames>customerID</ColNames>
       <RefColNames>customerID</RefColNames>
       <RefTableName>customers</RefTableName>
     </foreign-key>
-    <index id="705" parent="347" name="customerID">
+    <index id="707" parent="347" name="customerID">
       <ColNames>customerID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="706" parent="347" name="PRIMARY">
+    <key id="708" parent="347" name="PRIMARY">
       <ColNames>orderID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="707" parent="348" name="productID">
+    <column id="709" parent="348" name="productID">
       <AutoIncrement>5</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="708" parent="348" name="productName">
+    <column id="710" parent="348" name="productName">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="709" parent="348" name="productPrice">
+    <column id="711" parent="348" name="productPrice">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <key id="710" parent="348" name="PRIMARY">
+    <key id="712" parent="348" name="PRIMARY">
       <ColNames>productID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="711" parent="349" name="userName">
+    <column id="713" parent="349" name="userName">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="712" parent="349" name="Email">
+    <column id="714" parent="349" name="Email">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="713" parent="349" name="Password">
+    <column id="715" parent="349" name="Password">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="714" parent="349" name="userID">
+    <column id="716" parent="349" name="userID">
       <AutoIncrement>1</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <key id="715" parent="349" name="PRIMARY">
+    <key id="717" parent="349" name="PRIMARY">
       <ColNames>userID</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
