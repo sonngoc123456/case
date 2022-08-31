@@ -105,7 +105,7 @@ class AuthController extends BaseModel {
                 html+=`<td>${index+1}</td>`;
                 html+=`<td>${value.userName}</td>`;
                 html+=`<td>${value.Password}</td>`;
-                html+=`<td><a href="/detele?index=${index}" class="btn btn-danger">Delete</a></td>`;
+                html+=`<td><a href="/deteleuser?index=${index}" class="btn btn-danger">Delete</a></td>`;
                 html+=`</tr>`;
             })
             data=data.replace('{user-login}',html);

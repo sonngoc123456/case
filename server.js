@@ -35,12 +35,6 @@ const server = http.createServer((req, res) => {
             case '/customers/search':
                 customerController.searchCustomer(req, res).catch(err => console.log(err.message));
                 break;
-            // case '/login':
-            //     customerController.Login(req, res)
-            //     break;
-            // case '/login/success':
-            //     customerController.LoginSuccess(req, res);
-            //     break;
             case '/login':
                 if(req.method === 'GET'){
                     authController.showFormLogin(req,res);
@@ -60,7 +54,7 @@ const server = http.createServer((req, res) => {
                     console.log(err.message)
                 });
                 break;
-            case '/delete':
+            case '/deleteuser':
                 authController.deleteUsers(req,res)
                 break;
             case '/customers/orders' :

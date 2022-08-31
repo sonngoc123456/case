@@ -62,40 +62,6 @@ class CustomerController{
         }))
     }
 
-    Login(req, res) {
-        fs.readFile('./login/index.html', 'utf8', (err, data) => {
-            if(err) {
-                throw new Error(err.message)
-            }
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(data);
-            res.end();
-        })
-    }
-
-    LoginSuccess(req, res) {
-
-        let data = ''
-        req.on('data', chunk => {
-            data += chunk
-        })
-        req.on('end',async () => {
-            let dataForm = qs.parse(data);
-            let users = await this.customerModel.getUser();
-            let passwordUser = parseInt(dataForm.password)
-          for(let i = 0; i < users.length; i++) {
-              if (dataForm.email === users[i].email && passwordUser === users[i].password) {
-                  res.writeHead(301, { Location: '/'})
-              }else {
-                  res.writeHead(301, { Location: '/login'})
-              }
-              res.end()
-          }
-
-        })
-    }
-
-
     async showListOrder(req, res) {
         let customerID = qs.parse(url.parse(req.url).query).id;
         let customer = await this.customerModel.findCustomer(customerID);
