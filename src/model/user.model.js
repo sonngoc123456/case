@@ -6,11 +6,21 @@ class UserModel extends BaseModel{
         return await this.querySQL(sql);
     }
     async addUser(data){
-        const sql = `insert into users(username,passwords) value("${data.username}","${data.password}")`;
+        const sql = `insert into user(userName,Email,Password) value("${data.username}","${data.email}","${data.password}")`;
         return await this.querySQL(sql);
     }
     async showUser(){
         const sql = `select * from user`;
+        return await this.querySQL(sql);
+    }
+    async updateUser(dataForm,index){
+        const sql = `update user set Email = "${dataForm.email}",userName = "${dataForm.username}",password = "${dataForm.password}"
+            where userID =${index}`;
+        return await this.querySQL(sql);
+    }
+
+    async deleteUser(index){
+        const sql = `delete from user where userID =${index}`;
         return await this.querySQL(sql);
     }
 }

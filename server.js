@@ -55,7 +55,14 @@ const server = http.createServer((req, res) => {
                 });
                 break;
             case '/deleteuser':
-                authController.deleteUsers(req,res)
+                authController.deleteUser(req,res).catch()
+                break;
+            case '/formupdateuser':
+                if(req.method === 'GET'){
+                    authController.formupdateUser(req,res)
+                }else {
+                    authController.updateUsers(req,res).catch()
+                }
                 break;
             case '/customers/orders' :
                 customerController.showListOrder(req, res).catch(err => console.log(err.message));
